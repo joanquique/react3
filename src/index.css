@@ -7,6 +7,37 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+ul {
+  display: flex; /* Usar flexbox para alinear los elementos */
+  flex-wrap: wrap; /* Permitir que los elementos se envuelvan en filas */
+  justify-content: center; /* Centrar los elementos en la fila */
+  padding: 0; /* Eliminar padding del ul */
+  margin: 0; /* Eliminar margen del ul */
+}
+
+li {
+  list-style-type: none; /* Quitar puntos de la lista */
+  padding: 10px; /* Espaciado interno */
+  display: flex; /* Flexbox para li */
+  justify-content: center; /* Centrar contenido del li */
+}
+
+img {
+  width: 100%; /* Hacer que las imágenes sean responsivas */
+  max-width: 21rem; /* Tamaño máximo de las imágenes */
+  height: auto; /* Mantener la proporción */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+/* Media query para pantallas más pequeñas */
+@media (max-width: 768px) {
+  img {
+    max-width: 90%; /* Imágenes más pequeñas en pantallas pequeñas */
+  }
+}
+
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
