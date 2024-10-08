@@ -1,0 +1,40 @@
+.Breeds {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .Breeds h2 {
+    margin-bottom: 20px;
+    color: #2c3e50;
+    text-align: center;
+  }
+  
+  .Breeds ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .Breeds li {
+    margin-bottom: 10px;
+  }
+  
+  .Breeds a {
+    text-decoration: none;
+    color: #3498db;
+    font-size: 1.1em;
+    transition: color 0.3s;
+  }
+  
+  .Breeds a:hover {
+    color: #2980b9;
+  }
+  
+  .error {
+    color: #e74c3c;
+    margin-top: 20px;
+    font-weight: bold;
+  }

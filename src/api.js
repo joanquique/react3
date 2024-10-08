@@ -28,3 +28,14 @@ export const fetchCatBreeds = async () => {
     return [];
   }
 };
+
+// Nueva función para obtener detalles de una imagen específica
+export const fetchCatImageById = async (id) => {
+  try {
+    const response = await client.get(`images/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al obtener detalles de la imagen:', error);
+    return [];
+  }
+};

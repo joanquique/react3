@@ -34,7 +34,7 @@ ul {
   display: flex; /* Usar flexbox para alinear los elementos */
   flex-wrap: wrap; /* Permitir que los elementos se envuelvan en filas */
   justify-content: center; /* Centrar los elementos en la fila */
-  padding: 0; /* Eliminar padding del ul */
+  padding: 10px 0; /* Eliminar padding del ul */
   margin: 0; /* Eliminar margen del ul */
 }
 
@@ -43,6 +43,11 @@ li {
   padding: 10px; /* Espaciado interno */
   display: flex; /* Flexbox para li */
   justify-content: center; /* Centrar contenido del li */
+  color: #fff;
+}
+.menu {
+  text-decoration: none;
+  color: #fff;
 }
 
 img {

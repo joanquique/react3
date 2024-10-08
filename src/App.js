@@ -1,63 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import useCatImageSearch from './useCatImageSearch'; // Importamos nuestro custom hook
-import { fetchRandomCatImages } from './api';
+// src/App.js
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Home from './components/Home';
+import About from './components/About';
+import CatDetails from './components/CatDetails';
+import Breeds from './components/Breeds';
+import BreedDetails from './components/BreedDetails';
+import './App.css';
 
 const App = () => {
-  const [catImages, setCatImages] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const { searchTerm, handleChange, handleSubmit } = useCatImageSearch(); // Utilizamos nuestro custom hook
-  const [filteredCatImages, setFilteredCatImages] = useState([]); // Definimos el estado para las imágenes filtradas
-
-  useEffect(() => {
-    const getCatImages = async () => {
-      try {
-        const data = await fetchRandomCatImages(); 
-        setCatImages(data);
-        setLoading(false); 
-      } catch (error) {
-        console.error('Error al obtener imágenes de gatos:', error);
-        setLoading(false); 
-      }
-    };
-    getCatImages();
-  }, []);
-
-  // Función para manejar la búsqueda y filtrar las imágenes de gatos
-  const handleSearch = () => {
-    const filteredImages = catImages.filter(cat => {
-      // Verificamos si cat.breed está definido antes de llamar a toLowerCase()
-      return cat.breed && cat.breed.toLowerCase().includes(searchTerm.toLowerCase());
-    });
-    setFilteredCatImages(filteredImages);
-  };
-
   return (
     <Router>
       <div className="App">
-        <h1>Imágenes de gatos:</h1>
-        {/* Agregamos el formulario de búsqueda */}
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={handleChange}
-            placeholder="Buscar imágenes de gatos..."
-          />
-          <button type="submit" onClick={handleSearch}>Buscar</button> {/* Llamamos a handleSearch al hacer clic en el botón de búsqueda */}
-        </form>
-        {loading ? (
-          <p>Cargando imágenes...</p>
-        ) : (
-          <ul>
-            {/* Mostramos las imágenes filtradas si hay alguna, de lo contrario, mostramos todas las imágenes */}
-            {(filteredCatImages.length > 0 ? filteredCatImages : catImages).map(cat => (
-              <li key={cat.id}>
-                <img src={cat.url} alt="Gato" />
-              </li>
-            ))}
-          </ul>
-        )}
+        <header>
+          <h1>Galería de Gatos</h1>
+          <nav>
+            <ul className='menu'>
+              <li><Link to="/">Inicio</Link></li>
+              <li><Link to="/breeds">Razas</Link></li>
+              <li><Link to="/about">Acerca de</Link></li>
+            </ul>
+          </nav>
+        </header>
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/breeds" element={<Breeds />} />
+            <Route path="/breed/:breedId" element={<BreedDetails />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/cat/:id" element={<CatDetails />} />
+          </Routes>
+        </main>
+        <footer>
+          <p>© 2024 Joan Alvarez</p>
+        </footer>
       </div>
     </Router>
   );
