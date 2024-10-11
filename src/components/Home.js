@@ -1,9 +1,19 @@
-// src/components/Home.js
 import React, { useEffect, useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
 import useCatImageSearch from '../useCatImageSearch';
 import { fetchRandomCatImages } from '../api';
-import './Home.css'; // Asegúrate de crear este archivo para estilos
+import {
+  HomeContainer,
+  SearchForm,
+  SearchLabel,
+  SearchInput,
+  SearchButton,
+  ImageList,
+  ImageItemContainer,
+  StyledLink,
+  CatImage,
+  FavoriteButton,
+  ErrorMessage
+} from './Home.styled';
 
 const Home = () => {
   const [catImages, setCatImages] = useState([]);
@@ -11,23 +21,26 @@ const Home = () => {
   const [filteredCatImages, setFilteredCatImages] = useState([]);
   const [error, setError] = useState(null);
 
-  // Definir handleSearch usando useCallback para optimizar
+  // Definir la función de búsqueda
   const handleSearch = useCallback((term) => {
     const filteredImages = catImages.filter(cat => {
       return cat.breeds && cat.breeds.some(breed => breed.name.toLowerCase().includes(term.toLowerCase()));
     });
-    console.log('Imágenes filtradas:', filteredImages); // Log de imágenes filtradas
+    console.log('Imágenes filtradas:', filteredImages);
     setFilteredCatImages(filteredImages);
   }, [catImages]);
 
+  // Usar el hook personalizado con el callback
   const { searchTerm, handleChange, handleSubmit } = useCatImageSearch('', handleSearch);
 
   useEffect(() => {
     const getCatImages = async () => {
       try {
         const data = await fetchRandomCatImages(); 
-        console.log('Datos recibidos en Home:', data); // Verifica los datos recibidos
-        setCatImages(data);
+        //console.log('Datos recibidos en Home:', data);
+        // Inicializar la propiedad 'favorite' en cada cat
+        const catsWithFavorite = data.map(cat => ({ ...cat, favorite: false }));
+        setCatImages(catsWithFavorite);
         setLoading(false); 
       } catch (error) {
         console.error('Error al obtener imágenes de gatos:', error);
@@ -38,44 +51,52 @@ const Home = () => {
     getCatImages();
   }, []);
 
-  // Log para verificar qué imágenes se están intentando renderizar
-  console.log('Imágenes para renderizar:', filteredCatImages.length > 0 ? filteredCatImages : catImages);
+  //console.log('Imágenes para renderizar:', filteredCatImages.length > 0 ? filteredCatImages : catImages);
+
+  // Función para manejar el clic en favorito
+  const toggleFavorite = (id) => {
+    setCatImages(prevImages => 
+      prevImages.map(cat => 
+        cat.id === id ? { ...cat, favorite: !cat.favorite } : cat
+      )
+    );
+    setFilteredCatImages(prevImages => 
+      prevImages.map(cat => 
+        cat.id === id ? { ...cat, favorite: !cat.favorite } : cat
+      )
+    );
+  };
 
   return (
-    <div className="Home">
-      {/* <form onSubmit={handleSubmit}>
-        <label htmlFor="search">Buscar imágenes de gatos:</label>
-        <input
-          id="search"
-          type="text"
-          value={searchTerm}
-          onChange={handleChange}
-          placeholder="Buscar imágenes de gatos..."
-        />
-        <button type="submit">Buscar</button>
-      </form> */}
+    <HomeContainer>
       {loading ? (
         <p>Cargando imágenes...</p>
       ) : error ? (
-        <p className="error">{error}</p>
+        <ErrorMessage>{error}</ErrorMessage>
       ) : (
         (filteredCatImages.length > 0 ? filteredCatImages : catImages).length > 0 ? (
           <section>
-            <ul>
+            <ImageList>
               {(filteredCatImages.length > 0 ? filteredCatImages : catImages).map(cat => (
-                <li key={cat.id}>
-                  <Link to={`/cat/${cat.id}`}>
-                    <img src={cat.url} alt={`Gato ${cat.id}`} />
-                  </Link>
-                </li>
+                <ImageItemContainer key={cat.id} favorite={cat.favorite}>
+                  <StyledLink to={`/cat/${cat.id}`}>
+                    <CatImage src={cat.url} alt={`Gato ${cat.id}`} />
+                  </StyledLink>
+                  <FavoriteButton 
+                    favorite={cat.favorite} 
+                    onClick={() => toggleFavorite(cat.id)}
+                  >
+                    {cat.favorite ? '★' : '☆'}
+                  </FavoriteButton>
+                </ImageItemContainer>
               ))}
-            </ul>
+            </ImageList>
           </section>
         ) : (
           <p>No se encontraron imágenes para la búsqueda: "{searchTerm}"</p>
         )
       )}
-    </div>
+    </HomeContainer>
   );
 };
 

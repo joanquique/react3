@@ -1,28 +1,37 @@
 // src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
 import About from './components/About';
 import CatDetails from './components/CatDetails';
 import Breeds from './components/Breeds';
 import BreedDetails from './components/BreedDetails';
-import './App.css';
+import {
+  AppContainer,
+  Header,
+  Title,
+  Nav,
+  NavList,
+  NavLink,
+  MainContent
+} from './components/App.styled';
+import Footer from './components/Footer';
 
 const App = () => {
   return (
     <Router>
-      <div className="App">
-        <header>
-          <h1>Galería de Gatos</h1>
-          <nav>
-            <ul className='menu'>
-              <li><Link to="/">Inicio</Link></li>
-              <li><Link to="/breeds">Razas</Link></li>
-              <li><Link to="/about">Acerca de</Link></li>
-            </ul>
-          </nav>
-        </header>
-        <main>
+      <AppContainer>
+        <Header>
+          <Title>Galería de Gatos</Title>
+          <Nav>
+            <NavList>
+              <li><NavLink to="/">Inicio</NavLink></li>
+              <li><NavLink to="/breeds">Razas</NavLink></li>
+              <li><NavLink to="/about">Acerca de</NavLink></li>
+            </NavList>
+          </Nav>
+        </Header>
+        <MainContent>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/breeds" element={<Breeds />} />
@@ -30,11 +39,9 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="/cat/:id" element={<CatDetails />} />
           </Routes>
-        </main>
-        <footer>
-          <p>© 2024 Joan Alvarez</p>
-        </footer>
-      </div>
+        </MainContent>
+        <Footer bgColor="#bdc3c7" />
+      </AppContainer>
     </Router>
   );
 };

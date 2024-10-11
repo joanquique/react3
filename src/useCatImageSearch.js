@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const useCatImageSearch = (initialValue = '') => {
+const useCatImageSearch = (initialValue = '', callback) => {
   const [searchTerm, setSearchTerm] = useState(initialValue);
 
   const handleChange = event => {
@@ -9,9 +9,9 @@ const useCatImageSearch = (initialValue = '') => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    // Aquí puedes implementar la lógica para realizar la búsqueda de imágenes de gatos
-    // Por ahora, simplemente mostraremos el término de búsqueda en la consola
-    console.log('Búsqueda de imágenes de gatos:', searchTerm);
+    if (callback && typeof callback === 'function') {
+      callback(searchTerm);
+    }
   };
 
   return {

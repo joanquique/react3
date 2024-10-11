@@ -1,17 +1,17 @@
 import React from 'react';
-import './About.css'; // Asegúrate de crear este archivo para estilos
+import { AboutContainer, AboutTitle, AboutText } from './About.styled';
 
 const About = () => {
   return (
-    <section className="About">
-      <h2>Acerca de esta Aplicación</h2>
-      <p>
-        Esta aplicación muestra imágenes aleatorias de gatos utilizando la API de TheCatAPI. Puedes buscar imágenes de gatos por raza para encontrar la que más te guste.
-      </p>
-      <p>
-        Desarrollado como parte de un proyecto educativo para practicar React, React Router, Hooks personalizados y más conceptos de desarrollo web.
-      </p>
-    </section>
+    <AboutContainer>
+      <AboutTitle>Acerca de la Galería de Gatos</AboutTitle>
+      <AboutText>
+        Bienvenido a la Galería de Gatos, una aplicación creada para los amantes de los felinos. Aquí puedes explorar una amplia variedad de razas de gatos, ver imágenes adorables y obtener información detallada sobre cada una de ellas.
+      </AboutText>
+      <AboutText>
+        Nuestra misión es proporcionar un espacio donde los entusiastas de los gatos puedan aprender, compartir y disfrutar de la belleza y diversidad de estas maravillosas criaturas.
+      </AboutText>
+    </AboutContainer>
   );
 };
 
